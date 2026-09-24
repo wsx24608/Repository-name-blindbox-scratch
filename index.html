@@ -351,3 +351,121 @@ function setupScratch(){
   ctx.fillRect(0,0,width,height);
 
   ctx.fillStyle="#475
+  ctx.fillStyle="#475569";
+  ctx.font="bold 25px Arial";
+  ctx.textAlign="center";
+  ctx.textBaseline="middle";
+
+  ctx.fillText(
+    "刮開看獎品",
+    width/2,
+    height/2
+  );
+
+  ctx.globalCompositeOperation="destination-out";
+
+  let scratching=false;
+
+  function scratch(x,y){
+    ctx.beginPath();
+    ctx.arc(x,y,25,0,Math.PI*2);
+    ctx.fill();
+    checkScratch();
+  }
+
+  function position(event){
+    const rect=canvas.getBoundingClientRect();
+
+    return {
+      x:event.clientX-rect.left,
+      y:event.clientY-rect.top
+    };
+  }
+
+  canvas.onpointerdown=(e)=>{
+    scratching=true;
+    canvas.setPointerCapture(e.pointerId);
+    const p=position(e);
+    scratch(p.x,p.y);
+  };
+
+  canvas.onpointermove=(e)=>{
+    if(!scratching) return;
+
+    const p=position(e);
+    scratch(p.x,p.y);
+  };
+
+  canvas.onpointerup=()=>{
+    scratching=false;
+  };
+
+  canvas.onpointercancel=()=>{
+    scratching=false;
+  };
+
+  function checkScratch(){
+
+    const image=ctx.getImageData(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+    let transparent=0;
+    let checked=0;
+
+    for(let i=3;i<image.data.length;i+=160){
+      checked++;
+
+      if(image.data[i]===0){
+        transparent++;
+      }
+    }
+
+    if(transparent/checked>0.35){
+
+      canvas.style.transition="opacity .5s";
+      canvas.style.opacity="0";
+
+      document.getElementById("doneText").style.display="block";
+      document.getElementById("finishBtn").style.display="block";
+    }
+  }
+}
+
+function finishScratch(){
+
+  if(!usedNumbers.includes(currentNumber)){
+    usedNumbers.push(currentNumber);
+  }
+
+  document.getElementById("scratchPage").style.display="none";
+
+  const canvas=document.getElementById("scratchCanvas");
+  canvas.style.opacity="1";
+
+  createGrid();
+}
+
+function goBack(){
+
+  document.getElementById("scratchPage").style.display="none";
+
+  const canvas=document.getElementById("scratchCanvas");
+  canvas.style.opacity="1";
+}
+
+function resetGame(){
+
+  if(confirm("確定要重新開始測試嗎？")){
+    location.reload();
+  }
+}
+
+createGrid();
+
+</script>
+</body>
+</html>
