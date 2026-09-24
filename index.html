@@ -3,118 +3,186 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>盲盒刮刮樂</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,"Microsoft JhengHei",sans-serif;
+  background:#0f172a;
+  color:white;
+  text-align:center;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #111827;
-  color: white;
-  text-align: center;
+header{
+  padding:25px 15px;
+  background:linear-gradient(135deg,#9333ea,#ec4899);
 }
 
-header {
-  padding: 25px 15px;
-  background: linear-gradient(135deg,#7c3aed,#db2777);
+header h1{
+  margin:0;
+  font-size:32px;
 }
 
-h1 {
-  margin: 0;
-  font-size: 30px;
+header p{
+  margin:15px 0 0;
+  font-size:18px;
 }
 
-header p {
-  margin-bottom: 0;
+.info{
+  margin:20px auto;
+  width:92%;
+  max-width:600px;
+  padding:20px;
+  background:#1e293b;
+  border-radius:18px;
 }
 
-.info {
-  margin: 20px auto;
-  width: 92%;
-  max-width: 600px;
-  padding: 15px;
-  background: #1f2937;
-  border-radius: 15px;
+.price{
+  color:#fbbf24;
+  font-size:30px;
+  font-weight:bold;
 }
 
-.price {
-  color: #fbbf24;
-  font-size: 26px;
-  font-weight: bold;
+.status{
+  margin-top:10px;
+  color:#cbd5e1;
 }
 
-.grid {
-  width: 94%;
-  max-width: 650px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: repeat(5,1fr);
-  gap: 10px;
+.grid{
+  width:94%;
+  max-width:650px;
+  margin:20px auto;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
 }
 
-.card {
-  aspect-ratio: 1/1;
-  border: 0;
-  border-radius: 12px;
-  background: linear-gradient(135deg,#8b5cf6,#ec4899);
-  color: white;
-  font-size: 20px;
-  font-weight: bold;
-  box-shadow: 0 4px 10px #0005;
+.card{
+  aspect-ratio:1/1;
+  border:0;
+  border-radius:14px;
+  background:linear-gradient(135deg,#8b5cf6,#ec4899);
+  color:white;
+  font-size:19px;
+  font-weight:bold;
+  box-shadow:0 5px 12px #0005;
 }
 
-.card:active {
-  transform: scale(.94);
+.card:active{
+  transform:scale(.94);
 }
 
-.card.opened {
-  background: #374151;
-  color: #fbbf24;
-  font-size: 13px;
+.card.used{
+  background:#334155;
+  color:#94a3b8;
 }
 
-#resultBox {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: #000b;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+#scratchPage{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#0f172a;
+  z-index:100;
+  overflow:auto;
+  padding:20px;
 }
 
-.result {
-  background: white;
-  color: #111827;
-  width: 90%;
-  max-width: 350px;
-  padding: 30px 20px;
-  border-radius: 20px;
+.scratchBox{
+  width:100%;
+  max-width:420px;
+  margin:20px auto;
 }
 
-.result h2 {
-  color: #db2777;
+.back{
+  display:block;
+  border:0;
+  background:#334155;
+  color:white;
+  padding:12px 18px;
+  border-radius:10px;
+  font-size:16px;
 }
 
-.resultPrize {
-  font-size: 26px;
-  font-weight: bold;
-  margin: 25px 0;
+.numberTitle{
+  margin:30px 0 10px;
+  font-size:22px;
 }
 
-.close {
-  width: 100%;
-  padding: 14px;
-  border: 0;
-  border-radius: 12px;
-  background: #7c3aed;
-  color: white;
-  font-size: 18px;
+.hint{
+  color:#cbd5e1;
+  margin-bottom:20px;
+}
+
+.scratchCard{
+  position:relative;
+  width:100%;
+  aspect-ratio:1.6/1;
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 10px 30px #0008;
+}
+
+.prize{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#fff7ed,#fde68a);
+  color:#111827;
+}
+
+.prize small{
+  font-size:17px;
+}
+
+.prizeText{
+  font-size:30px;
+  font-weight:bold;
+  margin-top:12px;
+  color:#be123c;
+}
+
+#scratchCanvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  touch-action:none;
+}
+
+.doneText{
+  display:none;
+  margin-top:20px;
+  font-size:20px;
+  color:#fbbf24;
+  font-weight:bold;
+}
+
+.finishBtn{
+  display:none;
+  width:100%;
+  margin-top:20px;
+  padding:15px;
+  border:0;
+  border-radius:14px;
+  background:#7c3aed;
+  color:white;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.reset{
+  margin:20px auto 40px;
+  padding:12px 20px;
+  border:1px solid #64748b;
+  border-radius:10px;
+  background:transparent;
+  color:#cbd5e1;
 }
 </style>
 </head>
@@ -123,37 +191,70 @@ header p {
 
 <header>
   <h1>🎁 盲盒刮刮樂</h1>
-  <p>挑一個幸運號碼，看看你抽到什麼！</p>
+  <p>挑一個幸運號碼，刮開你的獎品！</p>
 </header>
 
 <div class="info">
   <div>每抽</div>
   <div class="price">NT$200</div>
-  <p>共 40 個號碼</p>
+
+  <div class="status">
+    剩餘 <span id="remaining">40</span> / 40 抽
+  </div>
 </div>
 
 <div class="grid" id="grid"></div>
 
-<div id="resultBox">
-  <div class="result">
-    <h2>🎉 開獎結果</h2>
+<button class="reset" onclick="resetGame()">
+  🔄 重新開始測試
+</button>
 
-    <div>
-      你選擇的是
-      <strong id="selectedNumber"></strong> 號
+
+<div id="scratchPage">
+
+  <div class="scratchBox">
+
+    <button class="back" onclick="goBack()">
+      ← 返回選號
+    </button>
+
+    <div class="numberTitle">
+      你選擇了
+      <strong id="numberText"></strong>
+      號
     </div>
 
-    <div class="resultPrize" id="resultPrize"></div>
+    <div class="hint">
+      👆 用手指把銀色區域刮開
+    </div>
 
-    <button class="close" onclick="closeResult()">
-      確定
+    <div class="scratchCard">
+
+      <div class="prize">
+        <small>恭喜你獲得</small>
+        <div class="prizeText" id="prizeText"></div>
+      </div>
+
+      <canvas id="scratchCanvas"></canvas>
+
+    </div>
+
+    <div class="doneText" id="doneText">
+      🎉 開獎完成！
+    </div>
+
+    <button class="finishBtn" id="finishBtn" onclick="finishScratch()">
+      確定並返回
     </button>
+
   </div>
+
 </div>
+
 
 <script>
 
-const prizes = [
+const prizes=[
   "🏆 A賞 大獎",
   "🏆 B賞 大獎",
   "🎁 C賞 盲盒",
@@ -162,48 +263,91 @@ const prizes = [
   "🎁 F賞 盲盒"
 ];
 
-for(let i = 0; i < 34; i++){
+for(let i=0;i<34;i++){
   prizes.push("✨ 小獎");
 }
 
-/* 洗牌 */
-for(let i = prizes.length - 1; i > 0; i--){
-  const j = Math.floor(Math.random() * (i + 1));
-  [prizes[i], prizes[j]] = [prizes[j], prizes[i]];
+/* 隨機排列獎品 */
+for(let i=prizes.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [prizes[i],prizes[j]]=[prizes[j],prizes[i]];
 }
 
-const grid = document.getElementById("grid");
+const grid=document.getElementById("grid");
 
-for(let i = 1; i <= 40; i++){
+let usedNumbers=[];
+let currentNumber=null;
 
-  const button = document.createElement("button");
+function createGrid(){
 
-  button.className = "card";
-  button.innerText = i;
+  grid.innerHTML="";
 
-  button.onclick = function(){
+  for(let i=1;i<=40;i++){
 
-    if(button.classList.contains("opened")){
-      return;
+    const button=document.createElement("button");
+
+    button.className="card";
+    button.innerText=String(i).padStart(2,"0");
+
+    if(usedNumbers.includes(i)){
+      button.classList.add("used");
+      button.innerText="已刮";
+      button.disabled=true;
     }
 
-    document.getElementById("selectedNumber").innerText = i;
-    document.getElementById("resultPrize").innerText = prizes[i-1];
+    button.onclick=()=>{
+      openScratch(i);
+    };
 
-    button.innerText = prizes[i-1];
-    button.classList.add("opened");
+    grid.appendChild(button);
+  }
 
-    document.getElementById("resultBox").style.display = "flex";
-  };
-
-  grid.appendChild(button);
+  document.getElementById("remaining").innerText=
+    40-usedNumbers.length;
 }
 
-function closeResult(){
-  document.getElementById("resultBox").style.display = "none";
+
+function openScratch(number){
+
+  currentNumber=number;
+
+  document.getElementById("numberText").innerText=
+    String(number).padStart(2,"0");
+
+  document.getElementById("prizeText").innerText=
+    prizes[number-1];
+
+  document.getElementById("scratchPage").style.display="block";
+
+  document.getElementById("doneText").style.display="none";
+  document.getElementById("finishBtn").style.display="none";
+
+  setTimeout(setupScratch,100);
 }
 
-</script>
 
-</body>
-</html>
+function setupScratch(){
+
+  const canvas=document.getElementById("scratchCanvas");
+  const card=canvas.parentElement;
+
+  canvas.width=card.clientWidth*2;
+  canvas.height=card.clientHeight*2;
+
+  const ctx=canvas.getContext("2d");
+
+  ctx.scale(2,2);
+
+  const width=card.clientWidth;
+  const height=card.clientHeight;
+
+  const gradient=ctx.createLinearGradient(0,0,width,height);
+
+  gradient.addColorStop(0,"#d1d5db");
+  gradient.addColorStop(.5,"#94a3b8");
+  gradient.addColorStop(1,"#e5e7eb");
+
+  ctx.fillStyle=gradient;
+  ctx.fillRect(0,0,width,height);
+
+  ctx.fillStyle="#475
