@@ -127,10 +127,19 @@ for(let i=39;i>0;i--){
  let j=Math.floor(Math.random()*(i+1));
  [prizes[i],prizes[j]]=[prizes[j],prizes[i]];
 }
+let savedPrizes=localStorage.getItem("prizes");
 
-let used=[];
+if(savedPrizes){
+  let oldPrizes=JSON.parse(savedPrizes);
+  prizes.splice(0, prizes.length, ...oldPrizes);
+}else{
+  localStorage.setItem("prizes",JSON.stringify(prizes));
+}
+let used=JSON.parse(localStorage.getItem("used") || "[]");
 let current=0;
-let wonPrizes={};
+let wonPrizes=JSON.parse(
+  localStorage.getItem("wonPrizes") || "{}"
+);
 function makeGrid(){
  let g=document.getElementById("grid");
  g.innerHTML="";
@@ -221,6 +230,8 @@ function finish(){
   used.push(current);
   wonPrizes[current] = prizes[current-1];
 }
+ localStorage.setItem("used", JSON.stringify(used));
+ localStorage.setItem("wonPrizes", JSON.stringify(wonPrizes));
  document.getElementById("scratchPage").style.display="none";
  makeGrid();
 }
@@ -230,10 +241,12 @@ function back(){
 }
 
 function resetGame(){
- if(confirm("確定重新開始嗎？")){
-  used=[];
-  makeGrid();
- }
+  if(confirm("確定重新開始嗎？")){
+    localStorage.removeItem("used");
+    localStorage.removeItem("wonPrizes");
+    localStorage.removeItem("prizes");
+    location.reload();
+  }
 }
 
 makeGrid();
