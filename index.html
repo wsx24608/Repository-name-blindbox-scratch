@@ -70,7 +70,7 @@ canvas{
  color:white;font-size:18px
 }
 </style>
-</head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head>
 
 <body>
 
@@ -115,6 +115,22 @@ canvas{
 </div>
 
 <script>
+ <script>  
+  
+const SUPABASE_URL = 'https://jgapjmqmxjmazvkmgbwf.supabase.co';
+ const SUPABASE_KEY = 'sb_publishable_d6OhiynTp5_fZuw6QsfzIQ_kUdfWf3l';
+ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  async function testSupabase(){
+  const { data, error } = await supabaseClient
+    .from('scratch_cards')
+    .select('*');
+
+  console.log('Supabase資料：', data);
+  console.log('Supabase錯誤：', error);
+}
+
+testSupabase();
+const prizes=[
 const prizes=[
 "🏆 A賞 大獎","🏆 B賞 大獎",
 "🎁 C賞 盲盒","🎁 D賞 盲盒",
