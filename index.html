@@ -1,13 +1,209 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>盲盒刮刮樂</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>盲盒刮刮樂</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #111827;
+  color: white;
+  text-align: center;
+}
+
+header {
+  padding: 25px 15px;
+  background: linear-gradient(135deg,#7c3aed,#db2777);
+}
+
+h1 {
+  margin: 0;
+  font-size: 30px;
+}
+
+header p {
+  margin-bottom: 0;
+}
+
+.info {
+  margin: 20px auto;
+  width: 92%;
+  max-width: 600px;
+  padding: 15px;
+  background: #1f2937;
+  border-radius: 15px;
+}
+
+.price {
+  color: #fbbf24;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.grid {
+  width: 94%;
+  max-width: 650px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  gap: 10px;
+}
+
+.card {
+  aspect-ratio: 1/1;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg,#8b5cf6,#ec4899);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0 4px 10px #0005;
+}
+
+.card:active {
+  transform: scale(.94);
+}
+
+.card.opened {
+  background: #374151;
+  color: #fbbf24;
+  font-size: 13px;
+}
+
+#resultBox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #000b;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.result {
+  background: white;
+  color: #111827;
+  width: 90%;
+  max-width: 350px;
+  padding: 30px 20px;
+  border-radius: 20px;
+}
+
+.result h2 {
+  color: #db2777;
+}
+
+.resultPrize {
+  font-size: 26px;
+  font-weight: bold;
+  margin: 25px 0;
+}
+
+.close {
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 12px;
+  background: #7c3aed;
+  color: white;
+  font-size: 18px;
+}
+</style>
 </head>
 
 <body>
+
+<header>
   <h1>🎁 盲盒刮刮樂</h1>
-  <p>我的第一個 App</p>
+  <p>挑一個幸運號碼，看看你抽到什麼！</p>
+</header>
+
+<div class="info">
+  <div>每抽</div>
+  <div class="price">NT$200</div>
+  <p>共 40 個號碼</p>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div id="resultBox">
+  <div class="result">
+    <h2>🎉 開獎結果</h2>
+
+    <div>
+      你選擇的是
+      <strong id="selectedNumber"></strong> 號
+    </div>
+
+    <div class="resultPrize" id="resultPrize"></div>
+
+    <button class="close" onclick="closeResult()">
+      確定
+    </button>
+  </div>
+</div>
+
+<script>
+
+const prizes = [
+  "🏆 A賞 大獎",
+  "🏆 B賞 大獎",
+  "🎁 C賞 盲盒",
+  "🎁 D賞 盲盒",
+  "🎁 E賞 盲盒",
+  "🎁 F賞 盲盒"
+];
+
+for(let i = 0; i < 34; i++){
+  prizes.push("✨ 小獎");
+}
+
+/* 洗牌 */
+for(let i = prizes.length - 1; i > 0; i--){
+  const j = Math.floor(Math.random() * (i + 1));
+  [prizes[i], prizes[j]] = [prizes[j], prizes[i]];
+}
+
+const grid = document.getElementById("grid");
+
+for(let i = 1; i <= 40; i++){
+
+  const button = document.createElement("button");
+
+  button.className = "card";
+  button.innerText = i;
+
+  button.onclick = function(){
+
+    if(button.classList.contains("opened")){
+      return;
+    }
+
+    document.getElementById("selectedNumber").innerText = i;
+    document.getElementById("resultPrize").innerText = prizes[i-1];
+
+    button.innerText = prizes[i-1];
+    button.classList.add("opened");
+
+    document.getElementById("resultBox").style.display = "flex";
+  };
+
+  grid.appendChild(button);
+}
+
+function closeResult(){
+  document.getElementById("resultBox").style.display = "none";
+}
+
+</script>
+
 </body>
 </html>
