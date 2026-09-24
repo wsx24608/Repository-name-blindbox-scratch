@@ -130,7 +130,7 @@ for(let i=39;i>0;i--){
 
 let used=[];
 let current=0;
-
+let wonPrizes={};
 function makeGrid(){
  let g=document.getElementById("grid");
  g.innerHTML="";
@@ -141,10 +141,14 @@ function makeGrid(){
   b.textContent=String(i).padStart(2,"0");
 
   if(used.includes(i)){
-   b.textContent="已抽";
-   b.classList.add("used");
-   b.disabled=true;
-  }
+  b.innerHTML =
+    String(i).padStart(2,"0") +
+    "<br>" +
+    (wonPrizes[i] || "已抽");
+
+  b.classList.add("used");
+  b.disabled=true;
+}
 
   b.onclick=()=>openCard(i);
   g.appendChild(b);
@@ -213,7 +217,10 @@ function scratch(){
 }
 
 function finish(){
- if(!used.includes(current))used.push(current);
+ if(!used.includes(current)){
+  used.push(current);
+  wonPrizes[current] = prizes[current-1];
+}
  document.getElementById("scratchPage").style.display="none";
  makeGrid();
 }
