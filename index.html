@@ -186,11 +186,11 @@ function scratch(){
   let r=c.getBoundingClientRect();
   x.globalCompositeOperation="destination-out";
   x.beginPath();
-  x.arc(e.clientX-r.left,e.clientY-r.top,28,0,Math.PI*2);
+  x.arc(e.clientX-r.left,e.clientY-r.top,15,0,Math.PI*2);
   x.fill();
 
   count++;
-  if(count>20){
+  if(count>120){
    c.style.opacity=0;
    document.getElementById("finish").style.display="block";
   }
