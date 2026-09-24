@@ -6,183 +6,191 @@
 <title>盲盒刮刮樂</title>
 
 <style>
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial,"Microsoft JhengHei",sans-serif;
-  background:#0f172a;
-  color:white;
-  text-align:center;
+* {
+  box-sizing: border-box;
 }
 
-header{
-  padding:25px 15px;
-  background:linear-gradient(135deg,#9333ea,#ec4899);
+body {
+  margin: 0;
+  font-family: Arial, "Microsoft JhengHei", sans-serif;
+  background: #0f172a;
+  color: white;
+  text-align: center;
 }
 
-header h1{
-  margin:0;
-  font-size:32px;
+header {
+  padding: 25px 15px;
+  background: linear-gradient(135deg, #9333ea, #ec4899);
 }
 
-header p{
-  margin:15px 0 0;
-  font-size:18px;
+header h1 {
+  margin: 0;
+  font-size: 32px;
 }
 
-.info{
-  margin:20px auto;
-  width:92%;
-  max-width:600px;
-  padding:20px;
-  background:#1e293b;
-  border-radius:18px;
+header p {
+  margin: 12px 0 0;
+  font-size: 18px;
 }
 
-.price{
-  color:#fbbf24;
-  font-size:30px;
-  font-weight:bold;
+.info {
+  width: 92%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #1e293b;
+  border-radius: 18px;
 }
 
-.status{
-  margin-top:10px;
-  color:#cbd5e1;
+.info .price {
+  color: #fbbf24;
+  font-size: 30px;
+  font-weight: bold;
 }
 
-.grid{
-  width:94%;
-  max-width:650px;
-  margin:20px auto;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:10px;
+.info .status {
+  margin-top: 10px;
+  color: #cbd5e1;
+  font-size: 18px;
 }
 
-.card{
-  aspect-ratio:1/1;
-  border:0;
-  border-radius:14px;
-  background:linear-gradient(135deg,#8b5cf6,#ec4899);
-  color:white;
-  font-size:19px;
-  font-weight:bold;
-  box-shadow:0 5px 12px #0005;
+.grid {
+  width: 94%;
+  max-width: 650px;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
 }
 
-.card:active{
-  transform:scale(.94);
+.card {
+  aspect-ratio: 1 / 1;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #475569, #334155);
+  color: white;
+  font-size: 19px;
+  font-weight: bold;
+  box-shadow: 0 5px 12px #0005;
 }
 
-.card.used{
-  background:#334155;
-  color:#94a3b8;
+.card:active {
+  transform: scale(0.94);
 }
 
-#scratchPage{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:#0f172a;
-  z-index:100;
-  overflow:auto;
-  padding:20px;
+.card.used {
+  background: #1f2937;
+  color: #64748b;
 }
 
-.scratchBox{
-  width:100%;
-  max-width:420px;
-  margin:20px auto;
+.reset {
+  margin: 20px 0 40px;
+  padding: 12px 20px;
+  border: 1px solid #64748b;
+  border-radius: 12px;
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 16px;
 }
 
-.back{
-  display:block;
-  border:0;
-  background:#334155;
-  color:white;
-  padding:12px 18px;
-  border-radius:10px;
-  font-size:16px;
+/* 刮刮卡畫面 */
+
+#scratchPage {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #0f172a;
+  z-index: 1000;
+  overflow-y: auto;
 }
 
-.numberTitle{
-  margin:30px 0 10px;
-  font-size:22px;
+.scratchBox {
+  width: 92%;
+  max-width: 500px;
+  margin: 30px auto;
 }
 
-.hint{
-  color:#cbd5e1;
-  margin-bottom:20px;
+.back {
+  display: block;
+  margin-bottom: 20px;
+  border: 0;
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 17px;
 }
 
-.scratchCard{
-  position:relative;
-  width:100%;
-  aspect-ratio:1.6/1;
-  border-radius:22px;
-  overflow:hidden;
-  box-shadow:0 10px 30px #0008;
+.numberTitle {
+  font-size: 20px;
+  margin-bottom: 15px;
 }
 
-.prize{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,#fff7ed,#fde68a);
-  color:#111827;
+.numberTitle strong {
+  color: #fbbf24;
+  font-size: 30px;
 }
 
-.prize small{
-  font-size:17px;
+.hint {
+  color: #cbd5e1;
+  margin-bottom: 15px;
 }
 
-.prizeText{
-  font-size:30px;
-  font-weight:bold;
-  margin-top:12px;
-  color:#be123c;
+.scratchCard {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #7c3aed, #db2777);
+  box-shadow: 0 10px 30px #0008;
 }
 
-#scratchCanvas{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  touch-action:none;
+.prize {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.doneText{
-  display:none;
-  margin-top:20px;
-  font-size:20px;
-  color:#fbbf24;
-  font-weight:bold;
+.prize small {
+  font-size: 18px;
 }
 
-.finishBtn{
-  display:none;
-  width:100%;
-  margin-top:20px;
-  padding:15px;
-  border:0;
-  border-radius:14px;
-  background:#7c3aed;
-  color:white;
-  font-size:18px;
-  font-weight:bold;
+.prizeText {
+  margin-top: 15px;
+  padding: 0 15px;
+  font-size: 30px;
+  font-weight: bold;
+  color: #fbbf24;
 }
 
-.reset{
-  margin:20px auto 40px;
-  padding:12px 20px;
-  border:1px solid #64748b;
-  border-radius:10px;
-  background:transparent;
-  color:#cbd5e1;
+#scratchCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.doneText {
+  display: none;
+  margin-top: 20px;
+  color: #4ade80;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.finishBtn {
+  display: none;
+  margin: 20px auto;
+  padding: 14px 25px;
+  border: 0;
+  border-radius: 12px;
+  background: #22c55e;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
 }
 </style>
 </head>
@@ -210,6 +218,8 @@ header p{
 </button>
 
 
+<!-- 刮刮卡畫面 -->
+
 <div id="scratchPage">
 
   <div class="scratchBox">
@@ -219,19 +229,18 @@ header p{
     </button>
 
     <div class="numberTitle">
-      你選擇了
-      <strong id="numberText"></strong>
-      號
+      你選擇了<br>
+      第 <strong id="numberText"></strong> 號
     </div>
 
     <div class="hint">
       👆 用手指把銀色區域刮開
     </div>
 
-    <div class="scratchCard">
+    <div class="scratchCard" id="scratchCard">
 
       <div class="prize">
-        <small>恭喜你獲得</small>
+        <small>你抽中了</small>
         <div class="prizeText" id="prizeText"></div>
       </div>
 
@@ -240,10 +249,13 @@ header p{
     </div>
 
     <div class="doneText" id="doneText">
-      🎉 開獎完成！
+      🎉 刮開完成！
     </div>
 
-    <button class="finishBtn" id="finishBtn" onclick="finishScratch()">
+    <button
+      class="finishBtn"
+      id="finishBtn"
+      onclick="finishScratch()">
       確定並返回
     </button>
 
@@ -254,7 +266,11 @@ header p{
 
 <script>
 
-const prizes=[
+/* ==============================
+   獎品設定
+============================== */
+
+const prizes = [
   "🏆 A賞 大獎",
   "🏆 B賞 大獎",
   "🎁 C賞 盲盒",
@@ -263,209 +279,192 @@ const prizes=[
   "🎁 F賞 盲盒"
 ];
 
-for(let i=0;i<34;i++){
+/* 補滿 40 個獎項 */
+
+while (prizes.length < 40) {
   prizes.push("✨ 小獎");
 }
 
 /* 隨機排列獎品 */
-for(let i=prizes.length-1;i>0;i--){
-  const j=Math.floor(Math.random()*(i+1));
-  [prizes[i],prizes[j]]=[prizes[j],prizes[i]];
+
+for (let i = prizes.length - 1; i > 0; i--) {
+
+  const j = Math.floor(Math.random() * (i + 1));
+
+  const temp = prizes[i];
+  prizes[i] = prizes[j];
+  prizes[j] = temp;
+
 }
 
-const grid=document.getElementById("grid");
 
-let usedNumbers=[];
-let currentNumber=null;
+/* ==============================
+   基本資料
+============================== */
 
-function createGrid(){
+const grid = document.getElementById("grid");
 
-  grid.innerHTML="";
+let usedNumbers = [];
 
-  for(let i=1;i<=40;i++){
+let currentNumber = null;
 
-    const button=document.createElement("button");
 
-    button.className="card";
-    button.innerText=String(i).padStart(2,"0");
+/* ==============================
+   建立 40 個號碼
+============================== */
 
-    if(usedNumbers.includes(i)){
+function createGrid() {
+
+  grid.innerHTML = "";
+
+  for (let i = 1; i <= 40; i++) {
+
+    const button = document.createElement("button");
+
+    button.className = "card";
+
+    button.innerText =
+      String(i).padStart(2, "0");
+
+    if (usedNumbers.includes(i)) {
+
       button.classList.add("used");
-      button.innerText="已刮";
-      button.disabled=true;
+
+      button.innerText = "已抽";
+
+      button.disabled = true;
+
     }
 
-    button.onclick=()=>{
+    button.addEventListener("click", function() {
+
       openScratch(i);
-    };
+
+    });
 
     grid.appendChild(button);
+
   }
 
-  document.getElementById("remaining").innerText=
-    40-usedNumbers.length;
+  document.getElementById("remaining").innerText =
+    40 - usedNumbers.length;
+
 }
 
 
-function openScratch(number){
+/* ==============================
+   開啟刮刮卡
+============================== */
 
-  currentNumber=number;
+function openScratch(number) {
 
-  document.getElementById("numberText").innerText=
-    String(number).padStart(2,"0");
+  currentNumber = number;
 
-  document.getElementById("prizeText").innerText=
-    prizes[number-1];
+  document.getElementById("numberText").innerText =
+    String(number).padStart(2, "0");
 
-  document.getElementById("scratchPage").style.display="block";
+  document.getElementById("prizeText").innerText =
+    prizes[number - 1];
 
-  document.getElementById("doneText").style.display="none";
-  document.getElementById("finishBtn").style.display="none";
+  document.getElementById("scratchPage").style.display =
+    "block";
 
-  setTimeout(setupScratch,100);
+  document.getElementById("doneText").style.display =
+    "none";
+
+  document.getElementById("finishBtn").style.display =
+    "none";
+
+  setTimeout(setupScratch, 100);
+
 }
 
 
-function setupScratch(){
+/* ==============================
+   建立銀色刮刮層
+============================== */
 
-  const canvas=document.getElementById("scratchCanvas");
-  const card=canvas.parentElement;
+function setupScratch() {
 
-  canvas.width=card.clientWidth*2;
-  canvas.height=card.clientHeight*2;
+  const canvas =
+    document.getElementById("scratchCanvas");
 
-  const ctx=canvas.getContext("2d");
+  const card =
+    document.getElementById("scratchCard");
 
-  ctx.scale(2,2);
+  const width = card.clientWidth;
+  const height = card.clientHeight;
 
-  const width=card.clientWidth;
-  const height=card.clientHeight;
+  const ratio =
+    window.devicePixelRatio || 1;
 
-  const gradient=ctx.createLinearGradient(0,0,width,height);
+  canvas.width =
+    width * ratio;
 
-  gradient.addColorStop(0,"#d1d5db");
-  gradient.addColorStop(.5,"#94a3b8");
-  gradient.addColorStop(1,"#e5e7eb");
+  canvas.height =
+    height * ratio;
 
-  ctx.fillStyle=gradient;
-  ctx.fillRect(0,0,width,height);
+  canvas.style.width =
+    width + "px";
 
-  ctx.fillStyle="#475
-  ctx.fillStyle="#475569";
-  ctx.font="bold 25px Arial";
-  ctx.textAlign="center";
-  ctx.textBaseline="middle";
+  canvas.style.height =
+    height + "px";
 
-  ctx.fillText(
-    "刮開看獎品",
-    width/2,
-    height/2
+  const ctx =
+    canvas.getContext("2d");
+
+  ctx.setTransform(
+    ratio,
+    0,
+    0,
+    ratio,
+    0,
+    0
   );
 
-  ctx.globalCompositeOperation="destination-out";
-
-  let scratching=false;
-
-  function scratch(x,y){
-    ctx.beginPath();
-    ctx.arc(x,y,25,0,Math.PI*2);
-    ctx.fill();
-    checkScratch();
-  }
-
-  function position(event){
-    const rect=canvas.getBoundingClientRect();
-
-    return {
-      x:event.clientX-rect.left,
-      y:event.clientY-rect.top
-    };
-  }
-
-  canvas.onpointerdown=(e)=>{
-    scratching=true;
-    canvas.setPointerCapture(e.pointerId);
-    const p=position(e);
-    scratch(p.x,p.y);
-  };
-
-  canvas.onpointermove=(e)=>{
-    if(!scratching) return;
-
-    const p=position(e);
-    scratch(p.x,p.y);
-  };
-
-  canvas.onpointerup=()=>{
-    scratching=false;
-  };
-
-  canvas.onpointercancel=()=>{
-    scratching=false;
-  };
-
-  function checkScratch(){
-
-    const image=ctx.getImageData(
+  const gradient =
+    ctx.createLinearGradient(
       0,
       0,
-      canvas.width,
-      canvas.height
+      width,
+      height
     );
 
-    let transparent=0;
-    let checked=0;
+  gradient.addColorStop(
+    0,
+    "#d1d5db"
+  );
 
-    for(let i=3;i<image.data.length;i+=160){
-      checked++;
+  gradient.addColorStop(
+    0.5,
+    "#94a3b8"
+  );
 
-      if(image.data[i]===0){
-        transparent++;
-      }
-    }
+  gradient.addColorStop(
+    1,
+    "#e5e7eb"
+  );
 
-    if(transparent/checked>0.35){
+  ctx.fillStyle = gradient;
 
-      canvas.style.transition="opacity .5s";
-      canvas.style.opacity="0";
+  ctx.fillRect(
+    0,
+    0,
+    width,
+    height
+  );
 
-      document.getElementById("doneText").style.display="block";
-      document.getElementById("finishBtn").style.display="block";
-    }
-  }
-}
+  ctx.fillStyle = "#475569";
 
-function finishScratch(){
+  ctx.font =
+    "bold 24px Arial";
 
-  if(!usedNumbers.includes(currentNumber)){
-    usedNumbers.push(currentNumber);
-  }
+  ctx.textAlign =
+    "center";
 
-  document.getElementById("scratchPage").style.display="none";
+  ctx.textBaseline =
+    "middle";
 
-  const canvas=document.getElementById("scratchCanvas");
-  canvas.style.opacity="1";
-
-  createGrid();
-}
-
-function goBack(){
-
-  document.getElementById("scratchPage").style.display="none";
-
-  const canvas=document.getElementById("scratchCanvas");
-  canvas.style.opacity="1";
-}
-
-function resetGame(){
-
-  if(confirm("確定要重新開始測試嗎？")){
-    location.reload();
-  }
-}
-
-createGrid();
-
-</script>
-</body>
-</html>
+  ctx.fillText(
+    "刮開看看你抽到什麼！",
+    width
