@@ -352,9 +352,16 @@ async function resetGame(){
   await makeGrid();
 }
 makeGrid();
+ function openAdmin(){
+  const password = prompt("請輸入店家管理密碼：");
+
+  if(password === null) return;
+
+  alert("下一步進入刮刮樂設定");
+ }
 </script>
 <div style="text-align:center; margin:30px 0;">
-  <button onclick="resetGame()">🔐 店家管理</button>
+  <button onclick="openAdmin()">⚙️ 店家管理</button>
 </div>
 </body>
 </html>
