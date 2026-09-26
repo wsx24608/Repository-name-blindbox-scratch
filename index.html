@@ -495,5 +495,125 @@ function removePrizeSetting(id){
   </button>
 
 </div>
+ <script>
+async function createNewGame() {
+
+  const totalCards = parseInt(
+    document.getElementById("settingTotal").value
+  );
+
+  const pricePerDraw = parseInt(
+    document.getElementById("settingPrice").value
+  );
+
+  const prizeNames = document.querySelectorAll(".prizeName");
+  const prizeQuantities = document.querySelectorAll(".prizeQuantity");
+
+  if (!totalCards || totalCards < 1) {
+    alert("❌ 請輸入正確的刮卡總數");
+    return;
+  }
+
+  if (!pricePerDraw || pricePerDraw < 1) {
+    alert("❌ 請輸入正確的每抽價格");
+    return;
+  }
+
+  if (prizeNames.length === 0) {
+    alert("❌ 請至少新增一個獎項");
+    return;
+  }
+
+  const prizes = [];
+
+  for (let i = 0; i < prizeNames.length; i++) {
+
+    const name = prizeNames[i].value.trim();
+    const quantity = parseInt(prizeQuantities[i].value);
+
+    if (!name || !quantity || quantity < 1) {
+      alert("❌ 請完整填寫所有獎項名稱與數量");
+      return;
+    }
+
+    prizes.push({
+      name: name,
+      quantity: quantity,
+      sort_order: i + 1
+    });
+  }
+
+  const totalPrizeQuantity = prizes.reduce(
+    (sum, prize) => sum + prize.quantity,
+    0
+  );
+
+  if (totalPrizeQuantity > totalCards) {
+    alert("❌ 獎項總數不能超過刮卡總數");
+    return;
+  }
+
+  if (!confirm(
+    "確定建立新的刮刮樂嗎？\n\n" +
+    "總刮數：" + totalCards +
+    "\n每抽：NT$" + pricePerDraw +
+    "\n設定獎項：" + totalPrizeQuantity + " 個"
+  )) {
+    return;
+  }
+
+  try {
+
+    // 更新基本設定
+    const { error: settingError } = await supabaseClient
+      .from("scratch_settings")
+      .update({
+        total_cards: totalCards,
+        price_per_draw: pricePerDraw,
+        updated_at: new Date().toISOString()
+      })
+      .eq("id", 1);
+
+    if (settingError) {
+      console.error(settingError);
+      alert("❌ 基本設定更新失敗");
+      return;
+    }
+
+    // 清除舊獎項
+    const { error: deletePrizeError } = await supabaseClient
+      .from("scratch_prizes")
+      .delete()
+      .gt("id", 0);
+
+    if (deletePrizeError) {
+      console.error(deletePrizeError);
+      alert("❌ 清除舊獎項失敗");
+      return;
+    }
+
+    // 寫入新獎項
+    const { error: prizeError } = await supabaseClient
+      .from("scratch_prizes")
+      .insert(prizes);
+
+    if (prizeError) {
+      console.error(prizeError);
+      alert("❌ 獎項寫入失敗");
+      return;
+    }
+
+    alert("✅ 新刮刮樂設定儲存成功！");
+
+    closeAdmin();
+
+  } catch (err) {
+
+    console.error(err);
+    alert("❌ 建立失敗，請稍後再試");
+
+  }
+}
+ </script>
 </body>
 </html>
