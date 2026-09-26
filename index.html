@@ -285,13 +285,23 @@ function back(){
  document.getElementById("scratchPage").style.display="none";
 }
 
-function resetGame(){
-  if(confirm("確定重新開始嗎？")){
-    localStorage.removeItem("used");
-    localStorage.removeItem("wonPrizes");
-    localStorage.removeItem("prizes");
-    location.reload();
+async function resetGame(){
+  if(!confirm("確定重新開始嗎？所有抽獎紀錄都會清除並重新洗牌。")) return;
+
+  const { error } = await supabaseClient.rpc("reset_scratch_game");
+
+  if(error){
+    console.error("重置失敗：", error);
+    alert("重新開始失敗，請再試一次");
+    return;
   }
+
+  localStorage.removeItem("used");
+  localStorage.removeItem("wonPrizes");
+  localStorage.removeItem("prizes");
+
+  alert("重新開始成功！");
+  await makeGrid();
 }
 
 makeGrid();
