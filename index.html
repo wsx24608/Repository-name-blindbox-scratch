@@ -363,5 +363,48 @@ makeGrid();
 <div style="text-align:center; margin:30px 0;">
   <button onclick="openAdmin()">⚙️ 店家管理</button>
 </div>
+ <!-- 店家設定畫面 -->
+<div id="adminPanel" style="
+  display:none;
+  max-width:420px;
+  margin:20px auto;
+  padding:20px;
+  background:#1e293b;
+  color:white;
+  border-radius:16px;
+">
+
+  <h2>⚙️ 刮刮樂設定</h2>
+
+  <p>刮卡總數</p>
+  <input id="settingTotal" type="number" value="40"
+    style="width:90%;padding:10px;">
+
+  <p>每抽價格</p>
+  <input id="settingPrice" type="number" value="200"
+    style="width:90%;padding:10px;">
+
+  <h3>🎁 獎項設定</h3>
+
+  <div id="prizeSettings"></div>
+
+  <button onclick="addPrizeSetting()"
+    style="margin-top:10px;padding:10px;">
+    ＋ 新增獎項
+  </button>
+
+  <br><br>
+
+  <button onclick="createNewGame()"
+    style="padding:12px 20px;">
+    🎲 建立新刮刮樂
+  </button>
+
+  <button onclick="closeAdmin()"
+    style="padding:12px 20px;">
+    取消
+  </button>
+
+</div>
 </body>
 </html>
