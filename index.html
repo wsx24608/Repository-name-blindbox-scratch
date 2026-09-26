@@ -286,13 +286,20 @@ function back(){
 }
 
 async function resetGame(){
+
+  const password = prompt("請輸入店家管理密碼：");
+
+  if(password === null) return;
+
   if(!confirm("確定重新開始嗎？所有抽獎紀錄都會清除並重新洗牌。")) return;
 
-  const { error } = await supabaseClient.rpc("reset_scratch_game");
+  const { error } = await supabaseClient.rpc("reset_scratch_game", {
+    admin_password: password
+  });
 
   if(error){
     console.error("重置失敗：", error);
-    alert("重置失敗：" + error.message);
+    alert("密碼錯誤或重置失敗");
     return;
   }
 
@@ -303,7 +310,6 @@ async function resetGame(){
   alert("重新開始成功！");
   await makeGrid();
 }
-
 makeGrid();
 </script>
 <div style="text-align:center; margin:30px 0;">
