@@ -87,6 +87,7 @@ canvas{
  <div style="margin-top:8px;">
 🏆 大獎剩餘 <span id="bigPrizeRemaining">6</span> / 6
  </div>
+  <div id="prizeRemainingList" style="margin-top:8px;"></div>
 </div>
 
 <div id="grid"></div>
@@ -197,6 +198,32 @@ async function makeGrid(){
 ).length;
 
 document.getElementById("bigPrizeRemaining").textContent = bigPrizeRemaining;
+ const prizeStats = {};
+
+data.forEach(card => {
+  if(card.prize !== "✨ 小獎"){
+    if(!prizeStats[card.prize]){
+      prizeStats[card.prize] = {
+        total: 0,
+        remaining: 0
+      };
+    }
+
+    prizeStats[card.prize].total++;
+
+    if(!card.used){
+      prizeStats[card.prize].remaining++;
+    }
+  }
+});
+
+const prizeList = document.getElementById("prizeRemainingList");
+
+prizeList.innerHTML = Object.entries(prizeStats)
+  .map(([name, stat]) =>
+    `${name}　剩餘 ${stat.remaining} / ${stat.total}`
+  )
+  .join("<br>");
 }
  async function drawCard(n){
 
