@@ -292,7 +292,7 @@ async function resetGame(){
 
   if(error){
     console.error("重置失敗：", error);
-    alert("重新開始失敗，請再試一次");
+    alert("重置失敗：" + error.message);
     return;
   }
 
