@@ -84,7 +84,9 @@ canvas{
 <div class="price">NT$200</div>
 <div class="status">
 剩餘 <span id="remaining">40</span> / 40 抽
-</div>
+ <div style="margin-top:8px;">
+🏆 大獎剩餘 <span id="bigPrizeRemaining">6</span> / 6
+ </div>
 </div>
 
 <div id="grid"></div>
@@ -190,6 +192,11 @@ async function makeGrid(){
   const remaining = data.filter(card => !card.used).length;
 
   document.getElementById("remaining").textContent = remaining;
+ const bigPrizeRemaining = data.filter(card =>
+  !card.used && card.prize !== "✨ 小獎"
+).length;
+
+document.getElementById("bigPrizeRemaining").textContent = bigPrizeRemaining;
 }
  async function drawCard(n){
 
