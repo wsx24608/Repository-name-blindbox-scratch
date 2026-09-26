@@ -277,29 +277,8 @@ function scratch(){
 }
 
 async function finish(){
-  const { data, error } = await supabaseClient
-    .from('scratch_cards')
-    .update({ used: true })
-    .eq('number', current)
-    .eq('used', false)
-    .select();
-
-  if(error){
-    console.error("更新失敗：", error);
-    alert("抽獎紀錄儲存失敗，請再試一次");
-    return;
-  }
-
-  if(!data || data.length === 0){
-    alert("這一格已經被其他人抽走了！");
     document.getElementById("scratchPage").style.display="none";
     await makeGrid();
-    return;
-  }
-
-  document.getElementById("scratchPage").style.display="none";
-
-  await makeGrid();
 }
 
 function back(){
