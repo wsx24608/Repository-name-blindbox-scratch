@@ -260,7 +260,6 @@ function scratch(){
 }
 
 async function finish(){
-alert("新版 finish 有執行");
   const { data, error } = await supabaseClient
     .from('scratch_cards')
     .update({ used: true })
