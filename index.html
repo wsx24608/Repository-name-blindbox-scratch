@@ -606,7 +606,7 @@ async function createNewGame() {
 // 重新建立刮刮樂卡片
 const { error: resetError } = await supabaseClient.rpc(
     "reset_scratch_game",
-    { admin_password: "a543504" }
+    { admin_password: "123456" }
 );
 
 if (resetError) {
