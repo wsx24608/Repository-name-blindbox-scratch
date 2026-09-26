@@ -154,41 +154,61 @@ let current=0;
 let wonPrizes=JSON.parse(
   localStorage.getItem("wonPrizes") || "{}"
 );
-function makeGrid(){
- let g=document.getElementById("grid");
- g.innerHTML="";
+async function makeGrid(){
 
- for(let i=1;i<=40;i++){
-  let b=document.createElement("button");
-  b.className="card";
-  b.textContent=String(i).padStart(2,"0");
+  const { data, error } = await supabaseClient
+    .from('scratch_cards')
+    .select('number, prize, used')
+    .order('number');
 
-  if(used.includes(i)){
-  b.innerHTML =
-    String(i).padStart(2,"0") +
-    "<br>" +
-    (wonPrizes[i] || "已抽");
+  if(error){
+    console.error('讀取 Supabase 失敗：', error);
+    alert('讀取抽獎資料失敗');
+    return;
+  }
 
-  b.classList.add("used");
-  b.disabled=true;
+  const g = document.getElementById("grid");
+  g.innerHTML = "";
+
+  data.forEach(card => {
+
+    const b = document.createElement("button");
+    b.className = "card";
+    b.textContent = String(card.number).padStart(2,"0");
+
+    if(card.used){
+      b.innerHTML =
+        String(card.number).padStart(2,"0") +
+        "<br>" +
+        card.prize;
+
+      b.classList.add("used");
+      b.disabled = true;
+    }
+
+    b.onclick = () => openCard(card.number, card.prize);
+
+    g.appendChild(b);
+  });
+
+  const remaining = data.filter(card => !card.used).length;
+
+  document.getElementById("remaining").textContent = remaining;
 }
-
-  b.onclick=()=>openCard(i);
-  g.appendChild(b);
- }
-
- document.getElementById("remaining").textContent=40-used.length;
-}
-
-function openCard(n){
+function openCard(n, prize){
  current=n;
- document.getElementById("num").textContent=String(n).padStart(2,"0");
- document.getElementById("prize").textContent=prizes[n-1];
+
+ document.getElementById("num").textContent=
+   String(n).padStart(2,"0");
+
+ document.getElementById("prize").textContent=
+   prize;
+
  document.getElementById("scratchPage").style.display="block";
  document.getElementById("finish").style.display="none";
+
  setTimeout(scratch,50);
 }
-
 function scratch(){
  let c=document.getElementById("canvas");
  let box=document.getElementById("box");
@@ -239,15 +259,31 @@ function scratch(){
  };
 }
 
-function finish(){
- if(!used.includes(current)){
-  used.push(current);
-  wonPrizes[current] = prizes[current-1];
-}
- localStorage.setItem("used", JSON.stringify(used));
- localStorage.setItem("wonPrizes", JSON.stringify(wonPrizes));
- document.getElementById("scratchPage").style.display="none";
- makeGrid();
+async function finish(){
+alert("新版 finish 有執行");
+  const { data, error } = await supabaseClient
+    .from('scratch_cards')
+    .update({ used: true })
+    .eq('number', current)
+    .eq('used', false)
+    .select();
+
+  if(error){
+    console.error("更新失敗：", error);
+    alert("抽獎紀錄儲存失敗，請再試一次");
+    return;
+  }
+
+  if(!data || data.length === 0){
+    alert("這一格已經被其他人抽走了！");
+    document.getElementById("scratchPage").style.display="none";
+    await makeGrid();
+    return;
+  }
+
+  document.getElementById("scratchPage").style.display="none";
+
+  await makeGrid();
 }
 
 function back(){
