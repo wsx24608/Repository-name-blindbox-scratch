@@ -603,7 +603,17 @@ async function createNewGame() {
       alert("❌ 獎項寫入失敗");
       return;
     }
+// 重新建立刮刮樂卡片
+const { error: resetError } = await supabaseClient.rpc(
+    "reset_scratch_game",
+    { p_password: "a543504" }
+);
 
+if (resetError) {
+    console.error(resetError);
+    alert("❌ 刮刮樂卡片建立失敗");
+    return;
+}
     alert("✅ 新刮刮樂設定儲存成功！");
 
     closeAdmin();
