@@ -357,8 +357,15 @@ makeGrid();
 
   if(password === null) return;
 
-  alert("下一步進入刮刮樂設定");
- }
+  document.getElementById("adminPanel").style.display = "block";
+  document.getElementById("adminPanel").scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+function closeAdmin(){
+  document.getElementById("adminPanel").style.display = "none";
+}
 </script>
 <div style="text-align:center; margin:30px 0;">
   <button onclick="openAdmin()">⚙️ 店家管理</button>
