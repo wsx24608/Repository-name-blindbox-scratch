@@ -218,8 +218,10 @@ data.forEach(card => {
 });
 
 const prizeList = document.getElementById("prizeRemainingList");
-
 prizeList.innerHTML = Object.entries(prizeStats)
+  .sort(([nameA], [nameB]) =>
+    nameA.localeCompare(nameB, "zh-TW")
+  )
   .map(([name, stat]) =>
     `${name}　剩餘 ${stat.remaining} / ${stat.total}`
   )
