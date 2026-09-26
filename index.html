@@ -386,6 +386,68 @@ makeGrid();
 function closeAdmin(){
   document.getElementById("adminPanel").style.display = "none";
 }
+ let prizeSettingCount = 0;
+
+function addPrizeSetting(){
+
+  prizeSettingCount++;
+
+  const area = document.getElementById("prizeSettings");
+
+  const row = document.createElement("div");
+
+  row.id = "prizeSetting_" + prizeSettingCount;
+
+  row.style.cssText = `
+    margin-top:15px;
+    padding:15px;
+    background:#334155;
+    border-radius:10px;
+  `;
+
+  row.innerHTML = `
+    <div style="margin-bottom:8px;">
+      <b>獎項 ${prizeSettingCount}</b>
+    </div>
+
+    <input
+      type="text"
+      class="prizeName"
+      placeholder="獎項名稱，例如：A賞 公仔"
+      style="width:90%;padding:10px;margin-bottom:8px;"
+    >
+
+    <input
+      type="number"
+      class="prizeQuantity"
+      placeholder="數量"
+      min="1"
+      value="1"
+      style="width:90%;padding:10px;margin-bottom:8px;"
+    >
+
+    <br>
+
+    <button
+      type="button"
+      onclick="removePrizeSetting(${prizeSettingCount})"
+      style="padding:6px 12px;"
+    >
+      🗑️ 刪除此獎項
+    </button>
+  `;
+
+  area.appendChild(row);
+}
+
+function removePrizeSetting(id){
+
+  const row = document.getElementById("prizeSetting_" + id);
+
+  if(row){
+    row.remove();
+  }
+}
 </script>
 <div style="text-align:center; margin:30px 0;">
   <button onclick="openAdmin()">⚙️ 店家管理</button>
