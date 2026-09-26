@@ -182,7 +182,7 @@ async function makeGrid(){
       b.disabled = true;
     }
 
-    b.onclick = () => openCard(card.number, card.prize);
+    b.onclick = () => drawCard(card.number);
 
     g.appendChild(b);
   });
@@ -191,6 +191,27 @@ async function makeGrid(){
 
   document.getElementById("remaining").textContent = remaining;
 }
+ async function drawCard(n){
+
+  const { data, error } = await supabaseClient.rpc(
+    "draw_scratch_card",
+    { card_number: n }
+  );
+
+  if(error){
+    console.error(error);
+    alert("抽獎失敗，請再試一次");
+    return;
+  }
+
+  if(!data || data.length === 0){
+    alert("這一格已經被其他人抽走了！");
+    await makeGrid();
+    return;
+  }
+
+  openCard(data[0].number, data[0].prize);
+ }
 function openCard(n, prize){
  current=n;
 
