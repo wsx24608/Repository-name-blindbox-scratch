@@ -352,12 +352,32 @@ async function resetGame(){
   await makeGrid();
 }
 makeGrid();
- function openAdmin(){
+ async function openAdmin(){
+
   const password = prompt("請輸入店家管理密碼：");
 
   if(password === null) return;
 
+  const { data, error } = await supabaseClient.rpc(
+    "verify_admin_password",
+    {
+      admin_password: password
+    }
+  );
+
+  if(error){
+    console.error(error);
+    alert("密碼驗證失敗，請稍後再試");
+    return;
+  }
+
+  if(data !== true){
+    alert("❌ 店家管理密碼錯誤");
+    return;
+  }
+
   document.getElementById("adminPanel").style.display = "block";
+
   document.getElementById("adminPanel").scrollIntoView({
     behavior: "smooth"
   });
